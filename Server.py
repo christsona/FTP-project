@@ -1,11 +1,29 @@
 import socket
 import sys
+import time
 
 def client(conn):
-    filename = str(input('What file would you like to use?:'))
+    # print(b'Welcome to the Server.')
+    texts = ["Asyoulikeit.txt","HenryV.txt","JuliusCaesar.txt","Macbeth.txt","Othello.txt"]
+    num_texts = str(len(texts))
+    conn.sendall(num_texts.encode('ASCII'))
+    time.sleep(0.01)
+    conn.sendall("Welcome to the Server. Here are the files that are available for download.".encode('ASCII'))
+    time.sleep(0.01)
+    for text in texts:
+        time.sleep(0.01)
+        conn.sendall(text.encode('ASCII'))
+        # conn.sendall("\n".encode('ASCII'))
+    # .conn.sendall("done".encode('ASCII'))
+    # print("done")
+    filename = conn.recv(1024)
+    filename = filename.decode('ASCII')
+    while not filename:
+        filename = conn.recv(1024).decode('ASCII')
+
     file = open(filename,'r')
-    conn.sendall(filename.encode('ASCII'))
-    print("sent filename")
+    # conn.sendall(filename.encode('ASCII'))
+    # print("sent filename")
     while True:
         reply = conn.recv(1024)
         reply = reply.decode('ASCII')
@@ -15,11 +33,12 @@ def client(conn):
         read = file.readline()
         if not read:
             conn.sendall("fin".encode('ASCII'))
-            print("finished sending file")
+            print("Download Complete")
             break
         line = read.encode('ASCII','ignore')
         conn.sendall(line)
-        print("sent new line")
+        # print("sent new line")
+        time.sleep(0.5)
 
     file.close()
     conn.close()
