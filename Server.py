@@ -38,7 +38,7 @@ def client(conn):
         line = read.encode('ASCII','ignore')
         conn.sendall(line)
         # print("sent new line")
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     file.close()
     conn.close()

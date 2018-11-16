@@ -70,7 +70,7 @@ while True:
         load_bar += "#"
         print(load_bar)
         # print('got new line')
-        time.sleep(0.5)
+        time.sleep(0.2)
     elif reply == 'fin':
         # print('ok finished')
         os.system('cls' if os.name == 'nt' else 'clear')
