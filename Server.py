@@ -17,7 +17,9 @@ def client(conn):
     filename = filename.decode('ASCII')
     while not filename:
         filename = conn.recv(1024).decode('ASCII')
-
+    num_lines = sum(1 for line in open(filename))
+    num_lines = str(num_lines)
+    conn.sendall(num_lines.encode('ASCII'))
     file = open(filename,'r')
     while True:
         reply = conn.recv(1024)

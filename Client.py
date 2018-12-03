@@ -40,11 +40,17 @@ while not filename or filename not in available_texts:
     filename = str(input('Please enter a file name from the available list: '))
 
 s.sendall(filename.encode('ASCII'))
+num_lines = s.recv(1024).decode('ASCII')
+num_lines = int(num_lines)
 filename = filename.split('.')
 file = open(filename[0]+"-copy.txt",'w')
 s.sendall("Y".encode('ASCII'))
 
 load_bar = "["
+#for i in range(int(num_lines)):
+    #load_bar += " "
+
+z = 0
 while True:
     reply = s.recv(1024)
     reply = reply.decode('ASCII')
@@ -53,12 +59,18 @@ while True:
         s.sendall("Y".encode('ASCII'))
         os.system('cls' if os.name == 'nt' else 'clear')
         load_bar += "#"
-        print(load_bar)
+        perc = (z/num_lines)*100
+        print(perc)
+        print(load_bar,str(perc)+"%")
+        #print(z)
         time.sleep(0.2)
+        z += 1
     elif reply == 'fin':
         os.system('cls' if os.name == 'nt' else 'clear')
         load_bar += "]"
-        print(load_bar)
+        perc = (z/num_lines)*100
+        print(load_bar,str(perc)+"%")
+        print(z)
         print("File download complete")
         break
     else:
