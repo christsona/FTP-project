@@ -59,14 +59,14 @@ while True:
         s.sendall("Y".encode('ASCII'))                       # sends a Y to the server to acknowledge the received line
         os.system('cls' if os.name == 'nt' else 'clear')     
         load_bar += "#"                                      # adds to the loadbar
-        perc = (z/num_lines)*100                             # calculates the percentage of the file received
+        perc = int((z/num_lines)*100)                             # calculates the percentage of the file received
         print(load_bar,str(perc)+"%")
         time.sleep(0.2)
         z += 1
     elif reply == 'fin':
         os.system('cls' if os.name == 'nt' else 'clear')     # clears the console to show the animation for the load bar
         load_bar += "]"
-        perc = (z/num_lines)*100
+        perc = int((z/num_lines)*100)
         print(load_bar,str(perc)+"%")                        # prints the percentage  
         print("File download complete")
         break
